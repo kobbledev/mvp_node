@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
  */
 const UserSeqSchema = mongoose.Schema({
   name: {
-    type: Number,
+    type: String,
   },
   username: {
     type: String,
@@ -30,7 +30,7 @@ const UserSeqSchema = mongoose.Schema({
   isActive: {
     type: Boolean,
   },
-  fk_companyId:{
+  fk_companyId: {
     type: [String],
   },
   createdBy: {

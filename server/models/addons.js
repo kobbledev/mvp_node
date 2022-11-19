@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 /**
  * @author Praveen
- * User model
+ * Addon model
  */
 const AddonSeqSchema = mongoose.Schema({
   packageName: {
@@ -19,7 +19,7 @@ const AddonSeqSchema = mongoose.Schema({
   currency: {
     type: String,
   },
-  isActive:{
+  isActive: {
     type: Boolean
   },
   createdBy: {

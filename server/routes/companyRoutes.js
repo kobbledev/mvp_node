@@ -1,41 +1,40 @@
 const express = require("express");
 const app = express();
-const packageController = require("../controllers/packageController");
+const companyController = require("../controllers/companyController");
 const authenticationService = require("../services/authenticationService");
 
 /**
- * Save or update package
+ * Save or update company
  * @author Praveen Varma
  */
-app.post("/package/save",
+app.post("/company/save",
     /*  authenticationService.validateHeaderSessionToken, */
-    packageController.savePackage);
+    companyController.saveCompany);
 
 /**
- * Fetch all packages
+ * Fetch all companies
  * @author Praveen Varma
  */
-app.post("/package/:page/:pageSize",
+app.post("/company/:page/:pageSize",
     /*  authenticationService.validateHeaderSessionToken, */
-    packageController.fetchAllPackages);
+    companyController.fetchAllCompanies);
 
 
 /**
-* Fetch package details
+* Fetch company details
 * @author Praveen Varma
 */
-app.post("/package/details",
+app.post("/company/details",
     /*  authenticationService.validateHeaderSessionToken, */
-    packageController.fetchPackageDetails);
-
+    companyController.fetchCompanyDetails);
 
 /**
-* load active package names
+* Fetch company names
 * @author Praveen Varma
 */
-app.post("/package/names",
+app.post("/company/names",
     /*  authenticationService.validateHeaderSessionToken, */
-    packageController.fetchPackageNames);
+    companyController.loadCompanyNames);
 
 
 module.exports = app;

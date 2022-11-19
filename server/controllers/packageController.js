@@ -50,3 +50,20 @@ const packageService = require("../services/packageService");
         res.status(200).json({success: false, msg:"Error while fetching package details"});
     }
 }
+
+ /**
+ * Load PackageNames
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+  exports.fetchPackageNames = async (req, res) =>{
+    try {
+       req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+       let resp = await packageService.fetchPackageNames(req.body);
+       res.status(200).json(resp);
+    } catch (error) {
+        console.log("Error occured in fetchPackageNames "+error);
+        res.status(200).json({success: false, msg:"Error while fetching fetchPackageNames"});
+    }
+}

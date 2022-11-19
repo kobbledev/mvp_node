@@ -8,5 +8,7 @@ const router = express.Router();
 router.use(require("./loginRoutes"));
 router.use(require("./packageRoutes"));
 router.use(require("./addOnRoutes"));
+router.use(require("./companyRoutes"));
+
 
 module.exports = router;

@@ -31,7 +31,7 @@ const PackageSeqSchema = mongoose.Schema({
   currency: {
     type: String,
   },
-  isActive:{
+  isActive: {
     type: Boolean
   },
   createdBy: {

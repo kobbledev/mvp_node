@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const packagesModel = require("../models/package");
+const Constants = require("../helper/constants");
+const moment = require('moment');
+
 /**
  * Save package
  * @author Praveen Varma
@@ -80,5 +83,40 @@ const packagesModel = require("../models/package");
     } catch (error) {
         console.log("Error occured in fetchPackageDetails "+error);
         return {success: false, msg:"Error while fetch package details"};
+    }
+}
+
+/**
+ * fetchPackageNames
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.fetchPackageNames = async (body) => {
+    try {
+        let packages = await packagesModel.find({ isActive: body.isActive }, "packageName softwareModel validity access isActive").lean();
+        let pkgs = [];
+        packages.forEach(itm => {
+            let expDate;
+            if(itm.validity === Constants.MONTHLY){
+                expDate = moment().add(Number(itm.access), 'M').format('YYYY-MM-DD');
+                expDate= new Date(expDate);
+            }else if(itm.validity === Constants.YEARLY){
+                expDate = moment().add(Number(itm.access), 'Y').format('YYYY-MM-DD');
+                expDate= new Date(expDate);
+            }
+            pkgs= [...pkgs,  {
+                label: itm.packageName,
+                value: itm._id.toString(),
+                softwareModel: itm.softwareModel,
+                validity: itm.validity,
+                access: itm.access,
+                expiryDate: expDate
+            }]
+        })
+        return { success: true, data: pkgs };
+    } catch (error) {
+        console.log("Error occured in fetchPackageNames " + error);
+        return { success: false, msg: "Error while fetchPackageNames" };
     }
 }

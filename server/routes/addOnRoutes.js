@@ -12,7 +12,7 @@ app.post("/addon/save",
     addonController.saveAddon);
 
 /**
- * Fetch all packages
+ * Fetch all addons
  * @author Praveen Varma
  */
 app.post("/addon/:page/:pageSize",
@@ -21,7 +21,7 @@ app.post("/addon/:page/:pageSize",
 
 
 /**
-* Fetch all packages
+* Fetch addon details
 * @author Praveen Varma
 */
 app.post("/addon/details",

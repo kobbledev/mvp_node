@@ -4,6 +4,7 @@ const loginController = require("../controllers/loginController");
 
 /**
  * Login API Call
+ * @author Praveen Varma
  */
 app.post("/login",
 loginController.login);
