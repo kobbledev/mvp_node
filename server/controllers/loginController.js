@@ -16,7 +16,7 @@ exports.login = async (req, res) =>{
             username: req.body.username,
             password: req.body.password
         }
-        let user = await userModel.findOne(filter).lean();
+        let user = await userModel.findOne(filter,"username isSuperAdmin isAdmin isActive sessionId").lean();
         if(user){
             if(!user.isActive){
                 return res.status(200).json({success : false, msg: "User is inactive. Please contact admin"});

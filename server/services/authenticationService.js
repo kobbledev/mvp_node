@@ -102,13 +102,13 @@ exports.validateHeaderSessionToken = async (req, res) => {
         return res.sendStatus(401);
       }
       // Fetch logged in user data
-      let user = await this.getRedisUser(headerToken);
+      let user = await this.getRedisUser(webSessionId);
       if (user === null) {
         console.log("authe verfy jwt failed new");
         return res.sendStatus(401);
       }
       payLoadObj = user ? user.data : { error: "No data" };
-      return res.status(200).json({ success: true, user: payLoadObj });
+      req.user ={_id:user._id}
     }
   } catch (err) {
     console.log("error :" + err);

@@ -3,35 +3,33 @@ const mongoose = require("mongoose");
  * @author Praveen
  * User model
  */
-const UserSeqSchema = mongoose.Schema({
+const PackageSeqSchema = mongoose.Schema({
   name: {
+    type: String,
+    required: true
+  },
+  noOfHalls: {
+    type: String,
+    required: true
+  },
+  softwareModel: {
+    type: String,
+    required: true
+  },
+  validity: {
+    type: String,
+    required: true
+  },
+  access: {
     type: Number,
-  },
-  username: {
-    type: String,
     required: true
   },
-  password: {
-    type: String,
+  amount: {
+    type: Boolean,
     required: true
   },
-  email: {
-    type: String,
-  },
-  mobile: {
-    type: String,
-  },
-  isSuperAdmin: {
+  currency: {
     type: Boolean,
-  },
-  isAdmin: {
-    type: Boolean,
-  },
-  isActive: {
-    type: Boolean,
-  },
-  fk_companyId:{
-    type: [String],
   },
   createdBy: {
     type: String,
@@ -46,4 +44,4 @@ const UserSeqSchema = mongoose.Schema({
     type: Date,
   },
 });
-module.exports = mongoose.model("users", UserSeqSchema, "users");
+module.exports = mongoose.model("packages", PackageSeqSchema, "packages");
