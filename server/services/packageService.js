@@ -98,6 +98,7 @@ const moment = require('moment');
         let pkgs = [];
         packages.forEach(itm => {
             let expDate;
+            itm.access = itm.access ? itm.access :1;
             if(itm.validity === Constants.MONTHLY){
                 expDate = moment().add(Number(itm.access), 'M').format('YYYY-MM-DD');
                 expDate= new Date(expDate);

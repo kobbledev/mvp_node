@@ -8,4 +8,8 @@ module.exports = {
     INACTIVE: "In Active",
     MONTHLY: "monthly",
     YEARLY: "yearly",
+    VENUE_TYPE :{
+        "indoor": "Indoor",
+        "outdoor":"Outdoor"
+    }
 };
