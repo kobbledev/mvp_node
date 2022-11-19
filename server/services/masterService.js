@@ -36,7 +36,7 @@ exports.getMasterData = async (body) => {
             return { success: true, data: items };
         }
     } catch (error) {
-        console.log("Error occured in saveVenue " + error);
-        return { success: false, msg: "Error while saving the Venue" };
+        console.log("Error occured in getMasterData " + error);
+        return { success: false, msg: "Error while getMasterData" };
     }
 }
