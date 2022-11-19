@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
  * User model
  */
 const PackageSeqSchema = mongoose.Schema({
-  name: {
+  packageName: {
     type: String,
     required: true
   },
@@ -25,11 +25,14 @@ const PackageSeqSchema = mongoose.Schema({
     required: true
   },
   amount: {
-    type: Boolean,
+    type: Number,
     required: true
   },
   currency: {
-    type: Boolean,
+    type: String,
+  },
+  isActive:{
+    type: Boolean
   },
   createdBy: {
     type: String,
