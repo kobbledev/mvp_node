@@ -1,27 +1,15 @@
 const mongoose = require("mongoose");
 /**
  * @author Praveen
- * Packages model
+ * User model
  */
-const PackageSeqSchema = mongoose.Schema({
+const AddonSeqSchema = mongoose.Schema({
   packageName: {
     type: String,
     required: true
   },
   noOfHalls: {
     type: String,
-    required: true
-  },
-  softwareModel: {
-    type: String,
-    required: true
-  },
-  validity: {
-    type: String,
-    required: true
-  },
-  access: {
-    type: Number,
     required: true
   },
   amount: {
@@ -47,4 +35,4 @@ const PackageSeqSchema = mongoose.Schema({
     type: Date,
   },
 });
-module.exports = mongoose.model("packages", PackageSeqSchema, "packages");
+module.exports = mongoose.model("addons", AddonSeqSchema, "addons");
