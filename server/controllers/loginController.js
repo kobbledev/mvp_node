@@ -44,10 +44,9 @@ exports.login = async (req, res) =>{
               data: null,
             });
         }
-        serviceHelper.logWriter({sessionId:respDataSession.sessionId}, "sessionLogs", "Session", "");
         return res.status(200).json({success : true, data: {...user, sessionId:respDataSession.sessionId }});
     } catch (error) {
-        serviceHelper.logWriter({error}, "sessionLogs", "errors", "");
+        //serviceHelper.logWriter({error}, "sessionLogs", "errors", "");
         return res.status(200).json({success : false});
     }
 }

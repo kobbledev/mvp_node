@@ -19,7 +19,7 @@ exports.logWriter = function (data, filename, folderName, append) {
 function createLogFolder(folderName) {
     var currentDate = moment().format("DD-MM-YYYY");
     var currentHr = moment().format("HH");
-    var logPathDir = path.join(__dirname, "../../../logs");
+    var logPathDir = path.join(__dirname, "../../../venue_logs");
     if (!fs.existsSync(logPathDir)) {
       fs.mkdirSync(logPathDir);
     }
