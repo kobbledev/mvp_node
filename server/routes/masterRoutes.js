@@ -11,5 +11,13 @@ const authenticationService = require("../services/authenticationService");
 app.post("/master/data",
     authenticationService.validateHeaderSessionToken,
     masterController.getMasterData);
+
+/**
+* load states data
+* @author Praveen Varma
+*/
+app.post("/master/states",
+    authenticationService.validateHeaderSessionToken,
+    masterController.getAllStates);
     
 module.exports = app;
