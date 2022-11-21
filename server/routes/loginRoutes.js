@@ -7,7 +7,14 @@ const loginController = require("../controllers/loginController");
  * @author Praveen Varma
  */
 app.post("/login",
-loginController.login);
+    loginController.login);
+
+/**
+ * Logout API Call
+ * @author Praveen Varma
+ */
+app.post("/logout",
+    loginController.logoutUser);
 
 
 module.exports = app;
