@@ -8,7 +8,7 @@ const authenticationService = require("../services/authenticationService");
  * @author Praveen Varma
  */
 app.post("/venue/save",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     venueController.saveVenue);
 
 /**
@@ -16,7 +16,7 @@ app.post("/venue/save",
  * @author Praveen Varma
  */
 app.post("/venue/:page/:pageSize",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     venueController.fetchAllVenues);
 
 
@@ -25,7 +25,7 @@ app.post("/venue/:page/:pageSize",
 * @author Praveen Varma
 */
 app.post("/venue/details",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     venueController.fetchVenueDetails);
 
 

@@ -8,7 +8,7 @@ const authenticationService = require("../services/authenticationService");
  * @author Praveen Varma
  */
 app.post("/package/save",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     packageController.savePackage);
 
 /**
@@ -16,7 +16,7 @@ app.post("/package/save",
  * @author Praveen Varma
  */
 app.post("/package/:page/:pageSize",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     packageController.fetchAllPackages);
 
 
@@ -25,7 +25,7 @@ app.post("/package/:page/:pageSize",
 * @author Praveen Varma
 */
 app.post("/package/details",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     packageController.fetchPackageDetails);
 
 
@@ -34,7 +34,7 @@ app.post("/package/details",
 * @author Praveen Varma
 */
 app.post("/package/names",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     packageController.fetchPackageNames);
 
 

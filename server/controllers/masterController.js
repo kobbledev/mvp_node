@@ -7,7 +7,7 @@ const masterService = require("../services/masterService");
  */
  exports.getMasterData = async (req, res) =>{
     try {
-       req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
        let resp = await masterService.getMasterData(req.body);
        res.status(200).json(resp);
     } catch (error) {

@@ -8,7 +8,7 @@ const authenticationService = require("../services/authenticationService");
  * @author Praveen Varma
  */
 app.post("/company/save",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     companyController.saveCompany);
 
 /**
@@ -16,7 +16,7 @@ app.post("/company/save",
  * @author Praveen Varma
  */
 app.post("/company/:page/:pageSize",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     companyController.fetchAllCompanies);
 
 
@@ -25,7 +25,7 @@ app.post("/company/:page/:pageSize",
 * @author Praveen Varma
 */
 app.post("/company/details",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     companyController.fetchCompanyDetails);
 
 /**
@@ -33,7 +33,7 @@ app.post("/company/details",
 * @author Praveen Varma
 */
 app.post("/company/names",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     companyController.loadCompanyNames);
 
 

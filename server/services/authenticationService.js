@@ -5,6 +5,7 @@ const redisClient = redis.createClient({
 });
 var async = require("async");
 const jwt = require("jsonwebtoken");
+const isEmpty = require("lodash.isempty");
 
 /**
  * This method is used for creating the session
@@ -77,9 +78,8 @@ exports.checkIfUserAlreadyLoggedIn = async (username) => {
  * @param {*} req
  * @param {*} res
  */
-exports.validateHeaderSessionToken = async (req, res) => {
+exports.validateHeaderSessionToken = async (req, res, next) => {
   try {
-    let payLoadObj;
     let sessionKey;
     let webSessionId = req.headers["sessionid"] ? req.headers["sessionid"] : null;
     if (webSessionId) {
@@ -88,6 +88,10 @@ exports.validateHeaderSessionToken = async (req, res) => {
     const logSource = req.headers["logsource"] ? req.headers["logsource"] : "Web";
 
     // Fetch Session Redis data
+    let token = req.headers["accesstoken"] ? req.headers["accesstoken"] : "";
+    if(isEmpty(token)){
+      return res.sendStatus(401);
+    }
     let redisData = await this.getRedisData(sessionKey);
     if (redisData === null) {
       console.log("validateHeaderSessionToken call redis data null for " + sessionKey + "   URL: " + req.headers.originurl + "  Method: " + req.headers.originmethod + " " + logSource);
@@ -102,16 +106,17 @@ exports.validateHeaderSessionToken = async (req, res) => {
         return res.sendStatus(401);
       }
       // Fetch logged in user data
-      let user = await this.getRedisUser(sessionKey);
+      let user = await this.getRedisUser(token);
       if (user === null) {
         console.log("authe verfy jwt failed new");
         return res.sendStatus(401);
       }
       req.user ={_id:user.data._id}
+      next();
     }
   } catch (err) {
     console.log("error :" + err);
-    return res.status(200).json({ success: false, data: "Authentication Failed" });
+    return res.status(401).json({ success: false, data: "Authentication Failed" });
   }
 };
 

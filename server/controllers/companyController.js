@@ -8,7 +8,7 @@ const companyService = require("../services/companyService");
  */
  exports.saveCompany = async (req, res) =>{
      try {
-        req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+        req.body.loggedIn= req.user ? req.user._id.toString():null;
         let resp = await companyService.saveCompany(req.body);
         res.status(200).json(resp);
      } catch (error) {
@@ -25,7 +25,7 @@ const companyService = require("../services/companyService");
  */
   exports.fetchAllCompanies = async (req, res) =>{
     try {
-       req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
        let resp = await companyService.fetchAllCompanies(req);
        res.status(200).json(resp);
     } catch (error) {
@@ -42,7 +42,7 @@ const companyService = require("../services/companyService");
  */
   exports.fetchCompanyDetails = async (req, res) =>{
     try {
-       req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
        let resp = await companyService.fetchCompanyDetails(req.body);
        res.status(200).json(resp);
     } catch (error) {
@@ -59,7 +59,7 @@ const companyService = require("../services/companyService");
  */
   exports.loadCompanyNames = async (req, res) =>{
     try {
-       req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
        let resp = await companyService.loadCompanyNames(req.body);
        res.status(200).json(resp);
     } catch (error) {

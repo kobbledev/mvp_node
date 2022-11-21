@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const userModel = require("../models/users");
 const authenticationService  = require("../services/authenticationService");
 const serviceHelper = require("../helper/serverHelper");
+const { base64encode} = require("nodejs-base64");
 
 /**
  * Login Service call
@@ -14,7 +15,7 @@ exports.login = async (req, res) =>{
     try {
         let filter={
             username: req.body.username,
-            password: req.body.password
+            password: base64encode(req.body.password)
         }
         let user = await userModel.findOne(filter,"username isSuperAdmin isAdmin isActive sessionId").lean();
         if(user){
@@ -44,7 +45,7 @@ exports.login = async (req, res) =>{
               data: null,
             });
         }
-        return res.status(200).json({success : true, data: {...user, sessionId:respDataSession.sessionId }});
+        return res.status(200).json({success : true, data: {...user, sessionId:respDataSession.sessionId, accessToken: token }});
     } catch (error) {
         //serviceHelper.logWriter({error}, "sessionLogs", "errors", "");
         return res.status(200).json({success : false});

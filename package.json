@@ -80,7 +80,7 @@
     "prod-server": "set APP_MODE=production&&npm install&&node ./server/server.js",
     "prod": "lite-server --baseDir=\"dist\"",
     "uat-server": "set APP_MODE=preproduction&&npm install&&node ./server/server.js",
-    "staging-server": "set APP_MODE=staging&&npm install&&node ./server/server.js",
+    "staging-server": "set APP_MODE=staging&&node ./server/server.js",
     "linux-uat-server": "APP_MODE=preproduction node ./server/server.js",
     "linux-staging-server": "APP_MODE=staging node ./server/server.js",
     "linux-prod-server": "APP_MODE=production node ./server/server.js"

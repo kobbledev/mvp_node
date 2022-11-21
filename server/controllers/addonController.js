@@ -8,7 +8,7 @@ const addonService = require("../services/addonService");
  */
  exports.saveAddon = async (req, res) =>{
      try {
-        req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+        req.body.loggedIn= req.user ? req.user._id.toString():null;
         let resp = await addonService.saveAddon(req.body);
         res.status(200).json(resp);
      } catch (error) {
@@ -25,7 +25,7 @@ const addonService = require("../services/addonService");
  */
   exports.fetchAllAddons = async (req, res) =>{
     try {
-       req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
        let resp = await addonService.fetchAllAddons(req);
        res.status(200).json(resp);
     } catch (error) {
@@ -42,7 +42,7 @@ const addonService = require("../services/addonService");
  */
   exports.fetchAddonDetails = async (req, res) =>{
     try {
-       req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
        let resp = await addonService.fetchAddonDetails(req.body);
        res.status(200).json(resp);
     } catch (error) {

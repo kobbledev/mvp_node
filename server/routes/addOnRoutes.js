@@ -8,7 +8,7 @@ const authenticationService = require("../services/authenticationService");
  * @author Praveen Varma
  */
 app.post("/addon/save",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     addonController.saveAddon);
 
 /**
@@ -16,7 +16,7 @@ app.post("/addon/save",
  * @author Praveen Varma
  */
 app.post("/addon/:page/:pageSize",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     addonController.fetchAllAddons);
 
 
@@ -25,7 +25,7 @@ app.post("/addon/:page/:pageSize",
 * @author Praveen Varma
 */
 app.post("/addon/details",
-    /*  authenticationService.validateHeaderSessionToken, */
+    authenticationService.validateHeaderSessionToken,
     addonController.fetchAddonDetails);
 
 

@@ -8,7 +8,7 @@ const venueService = require("../services/venueService");
  */
  exports.saveVenue = async (req, res) =>{
      try {
-        req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+        req.body.loggedIn= req.user ? req.user._id.toString():null;
         let resp = await venueService.saveVenue(req.body);
         res.status(200).json(resp);
      } catch (error) {
@@ -25,7 +25,7 @@ const venueService = require("../services/venueService");
  */
   exports.fetchAllVenues = async (req, res) =>{
     try {
-       req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
        let resp = await venueService.fetchAllVenues(req);
        res.status(200).json(resp);
     } catch (error) {
@@ -42,7 +42,7 @@ const venueService = require("../services/venueService");
  */
   exports.fetchVenueDetails = async (req, res) =>{
     try {
-       req.body.loggedIn= req.user ? req.user._id.toString():"63787e2a0b23e87334480f20";
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
        let resp = await venueService.fetchVenueDetails(req.body);
        res.status(200).json(resp);
     } catch (error) {
