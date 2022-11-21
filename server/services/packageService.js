@@ -38,7 +38,17 @@ const moment = require('moment');
  */
  exports.fetchAllPackages = async(req) =>{
     try {
-        let packages = await packagesModel.find()
+        let filter ={};
+        if(req.body.search){
+            filter= {
+                $or: [
+                    { packageName: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { softwareModel: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { noOfHalls: { $regex: ".*" + req.body.search, $options: "i" } }
+                ],
+            }
+        }
+        let packages = await packagesModel.find(filter)
             .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
             .limit(parseInt(req.params.pageSize))
             .sort({createdDate : -1})
@@ -58,7 +68,7 @@ const moment = require('moment');
                 itm.noOfHalls = itm.noOfHalls ? `${itm.noOfHalls} Halls(s)`:"";
             })
         }
-        let totalRecords = await packagesModel.find().countDocuments();
+        let totalRecords = await packagesModel.find(filter).countDocuments();
         return {success : true, data: packages, totalRecords}
     } catch (error) {
         console.log("Error occured in fetchAllPackages "+error);
