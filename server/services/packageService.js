@@ -44,7 +44,8 @@ const moment = require('moment');
                 $or: [
                     { packageName: { $regex: ".*" + req.body.search, $options: "i" } },
                     { softwareModel: { $regex: ".*" + req.body.search, $options: "i" } },
-                    { noOfHalls: { $regex: ".*" + req.body.search, $options: "i" } }
+                    { noOfHalls: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { amount: { $regex: ".*" + req.body.search, $options: "i" } }
                 ],
             }
         }
@@ -63,11 +64,6 @@ const moment = require('moment');
                 model:"users",
                 select: "name"
             });
-        if(packages && packages.length >0){
-            packages.forEach(itm =>{
-                itm.noOfHalls = itm.noOfHalls ? `${itm.noOfHalls} Halls(s)`:"";
-            })
-        }
         let totalRecords = await packagesModel.find(filter).countDocuments();
         return {success : true, data: packages, totalRecords}
     } catch (error) {

@@ -37,6 +37,15 @@ exports.saveVenue = async (body) => {
  */
 exports.fetchAllVenues = async (req) => {
     try {
+        let filter ={};
+        if(req.body.search){
+            filter= {
+                $or: [
+                    { name: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { type: { $regex: ".*" + req.body.search, $options: "i" } }
+                ],
+            }
+        }
         let venues = await venueModel.find()
             .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
             .limit(parseInt(req.params.pageSize))

@@ -35,7 +35,17 @@ const addonModel = require("../models/addons");
  */
  exports.fetchAllAddons = async(req) =>{
     try {
-        let addons = await addonModel.find()
+        let filter ={};
+        if(req.body.search){
+            filter= {
+                $or: [
+                    { packageName: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { noOfHalls: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { amount: { $regex: ".*" + req.body.search, $options: "i" } }
+                ],
+            }
+        }
+        let addons = await addonModel.find(filter)
             .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
             .limit(parseInt(req.params.pageSize))
             .sort({createdDate : -1})
@@ -50,12 +60,7 @@ const addonModel = require("../models/addons");
                 model:"users",
                 select: "name"
             });
-        if(addons && addons.length >0){
-            addons.forEach(itm =>{
-                itm.noOfHalls = itm.noOfHalls ? `${itm.noOfHalls} Halls(s)`:"";
-            })
-        }
-        let totalRecords = await addonModel.find().countDocuments();
+        let totalRecords = await addonModel.find().countDocuments(filter);
         return {success : true, data: addons, totalRecords}
     } catch (error) {
         console.log("Error occured in fetchAllAddons "+error);

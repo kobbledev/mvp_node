@@ -89,13 +89,6 @@ const userModel = require("../models/users");
                 model:"users",
                 select: "name"
             });
-        if(companies && companies.length >0){
-            companies.forEach(itm =>{
-                if(itm.packageType){
-                    itm.packageType.noOfHalls = itm.packageType.noOfHalls ? `${itm.packageType.noOfHalls} Halls(s)`:"";
-                }
-            })
-        }
         let totalRecords = await companyModel.find().countDocuments();
         return {success : true, data: companies, totalRecords}
     } catch (error) {

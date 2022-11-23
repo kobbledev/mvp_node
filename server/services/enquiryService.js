@@ -35,12 +35,24 @@ exports.saveEnquiry = async (body) => {
  */
 exports.fetchAllEnquiries = async (req) => {
     try {
-        let enquiries = await enquiryModel.find()
+        let filter ={};
+        if(req.body.search){
+            filter= {
+                $or: [
+                    { name: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { companyName: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { email: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { mobile: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { message: { $regex: ".*" + req.body.search, $options: "i" } }
+                ],
+            }
+        }
+        let enquiries = await enquiryModel.find(filter)
             .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
             .limit(parseInt(req.params.pageSize))
             .sort({ createdDate: -1 })
             .lean()
-        let totalRecords = await enquiryModel.find().countDocuments();
+        let totalRecords = await enquiryModel.find(filter).countDocuments();
         return { success: true, data: enquiries, totalRecords }
     } catch (error) {
         console.log("Error occured in fetchAllEnquiries " + error);
