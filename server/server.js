@@ -111,7 +111,7 @@ app.use("/uploads", express.static("uploads"));
 app.use(helmet());
 
 app.get('/', (req, res) => {
-  res.send(`Venu mngt backend server is up and pointing to : ${port} ${process.env.NODE_ENV}`);
+  res.send(`Venue mngt backend server is up and pointing to : ${port} ${process.env.NODE_ENV}`);
 })
 
 const server = app.listen(port, () => {
