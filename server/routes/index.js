@@ -12,5 +12,6 @@ router.use(require("./companyRoutes"));
 router.use(require("./venueRoutes"));
 router.use(require("./masterRoutes"));
 router.use(require("./enquiryRoutes"));
+router.use(require("./dashboardRoutes"));
 
 module.exports = router;

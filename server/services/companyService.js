@@ -115,7 +115,7 @@ const userModel = require("../models/users");
             }
             return {success: true, data: company};
         }else{
-            return {success: true, msg:"Invalid request"};
+            return {success: false, msg:"Invalid request"};
         }
     } catch (error) {
         console.log("Error occured in fetchCompanyDetails "+error);
