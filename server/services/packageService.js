@@ -21,6 +21,7 @@ const moment = require('moment');
         }else{
             body.createdBy = body.loggedIn;
             body.createdDate = new Date();
+            body.isDelete = false;
             packagesModel(body).save();
             return {success: true, msg:"Package saved successfully"};
         }
@@ -47,6 +48,7 @@ const moment = require('moment');
                     { noOfHalls: { $regex: ".*" + req.body.search, $options: "i" } },
                     { amount: { $regex: ".*" + req.body.search, $options: "i" } }
                 ],
+                isDelete: false
             }
         }
         let packages = await packagesModel.find(filter)
@@ -100,7 +102,7 @@ const moment = require('moment');
  */
  exports.fetchPackageNames = async (body) => {
     try {
-        let packages = await packagesModel.find({ isActive: body.isActive }, "packageName softwareModel validity access isActive").lean();
+        let packages = await packagesModel.find({ isActive: body.isActive, isDelete: false }, "packageName softwareModel validity access isActive").lean();
         let pkgs = [];
         packages.forEach(itm => {
             let expDate;

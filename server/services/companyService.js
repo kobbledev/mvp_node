@@ -34,6 +34,7 @@ const userModel = require("../models/users");
         }else{
             body.createdBy = body.loggedIn;
             body.createdDate = new Date();
+            body.isDelete= false;
             let cmpDB = await companyModel(body).save();
             if(cmpDB){
                 let obj ={
@@ -68,7 +69,7 @@ const userModel = require("../models/users");
  */
  exports.fetchAllCompanies = async(req) =>{
     try {
-        let companies = await companyModel.find()
+        let companies = await companyModel.find({isDelete: false})
             .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
             .limit(parseInt(req.params.pageSize))
             .sort({createdDate : -1})
@@ -89,7 +90,7 @@ const userModel = require("../models/users");
                 model:"users",
                 select: "name"
             });
-        let totalRecords = await companyModel.find().countDocuments();
+        let totalRecords = await companyModel.find({isDelete: false}).countDocuments();
         return {success : true, data: companies, totalRecords}
     } catch (error) {
         console.log("Error occured in fetchAllCompanies "+error);
@@ -131,7 +132,7 @@ const userModel = require("../models/users");
  */
 exports.loadCompanyNames = async (body) => {
     try {
-        let companies = await companyModel.find({ status: body.status }, "name").lean();
+        let companies = await companyModel.find({ status: body.status, isDelete: false }, "name").lean();
         let cmps = [];
         companies.forEach(itm => {
             cmps= [...cmps,  {

@@ -18,6 +18,7 @@ const addonModel = require("../models/addons");
         }else{
             body.createdBy = body.loggedIn;
             body.createdDate = new Date();
+            body.isDelete= false;
             addonModel(body).save();
             return {success: true, msg:"Addon saved successfully"};
         }
@@ -43,6 +44,7 @@ const addonModel = require("../models/addons");
                     { noOfHalls: { $regex: ".*" + req.body.search, $options: "i" } },
                     { amount: { $regex: ".*" + req.body.search, $options: "i" } }
                 ],
+                isDelete: false
             }
         }
         let addons = await addonModel.find(filter)

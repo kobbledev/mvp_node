@@ -63,5 +63,8 @@ const CompanySeqSchema = mongoose.Schema({
   modifiedDate: {
     type: Date,
   },
+  isDelete: {
+    type: Boolean
+  },
 });
 module.exports = mongoose.model("company", CompanySeqSchema, "company");

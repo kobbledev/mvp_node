@@ -34,5 +34,8 @@ const AddonSeqSchema = mongoose.Schema({
   modifiedDate: {
     type: Date,
   },
+  isDelete: {
+    type: Boolean
+  },
 });
 module.exports = mongoose.model("addons", AddonSeqSchema, "addons");

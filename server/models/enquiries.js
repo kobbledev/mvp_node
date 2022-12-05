@@ -20,7 +20,7 @@ const EnquirySeqSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  isDeleted: {
+  isDelete: {
     type: Boolean,
     default: false
   },

@@ -20,6 +20,7 @@ exports.saveVenue = async (body) => {
         } else {
             body.createdBy = body.loggedIn;
             body.createdDate = new Date();
+            body.isDelte= false;
             venueModel(body).save();
             return { success: true, msg: "Venue saved successfully" };
         }
@@ -44,9 +45,10 @@ exports.fetchAllVenues = async (req) => {
                     { name: { $regex: ".*" + req.body.search, $options: "i" } },
                     { type: { $regex: ".*" + req.body.search, $options: "i" } }
                 ],
+                isDelte: false
             }
         }
-        let venues = await venueModel.find()
+        let venues = await venueModel.find({isDelete: false})
             .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
             .limit(parseInt(req.params.pageSize))
             .sort({ createdDate: -1 })
@@ -71,7 +73,7 @@ exports.fetchAllVenues = async (req) => {
                 itm.type = itm.type ? Constants.VENUE_TYPE[itm.type] : "";
             })
         }
-        let totalRecords = await venueModel.find().countDocuments();
+        let totalRecords = await venueModel.find({isDelete: false}).countDocuments();
         return { success: true, data: venues, totalRecords }
     } catch (error) {
         console.log("Error occured in fetchAllVenues " + error);

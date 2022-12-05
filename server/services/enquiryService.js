@@ -18,6 +18,7 @@ exports.saveEnquiry = async (body) => {
         } else {
             body.createdBy = body.loggedIn;
             body.createdDate = new Date();
+            body.isDelete= false;
             enquiryModel(body).save();
             return { success: true, msg: "Enquiry saved successfully" };
         }
@@ -45,6 +46,7 @@ exports.fetchAllEnquiries = async (req) => {
                     { mobile: { $regex: ".*" + req.body.search, $options: "i" } },
                     { message: { $regex: ".*" + req.body.search, $options: "i" } }
                 ],
+                isDelete: false
             }
         }
         let enquiries = await enquiryModel.find(filter)

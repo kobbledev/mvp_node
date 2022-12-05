@@ -46,5 +46,8 @@ const PackageSeqSchema = mongoose.Schema({
   modifiedDate: {
     type: Date,
   },
+  isDelete: {
+    type: Boolean
+  },
 });
 module.exports = mongoose.model("packages", PackageSeqSchema, "packages");
