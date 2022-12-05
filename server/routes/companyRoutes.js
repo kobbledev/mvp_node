@@ -36,5 +36,37 @@ app.post("/company/names",
     authenticationService.validateHeaderSessionToken,
     companyController.loadCompanyNames);
 
+/**
+* Save or update department
+* @author Praveen Varma
+*/
+app.post("/department/save",
+    authenticationService.validateHeaderSessionToken,
+    companyController.saveDepartment);
+
+/**
+ * Fetch all department
+ * @author Praveen Varma
+ */
+app.post("/department/:page/:pageSize",
+    authenticationService.validateHeaderSessionToken,
+    companyController.fetchAllDepartments);
+
+/**
+* Save or update designation
+* @author Praveen Varma
+*/
+app.post("/designation/save",
+    authenticationService.validateHeaderSessionToken,
+    companyController.saveDesignation);
+
+/**
+ * Fetch all designation
+ * @author Praveen Varma
+ */
+app.post("/designation/:page/:pageSize",
+    authenticationService.validateHeaderSessionToken,
+    companyController.fetchAllDesigantions);
+
 
 module.exports = app;

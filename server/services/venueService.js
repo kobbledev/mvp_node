@@ -38,14 +38,14 @@ exports.saveVenue = async (body) => {
  */
 exports.fetchAllVenues = async (req) => {
     try {
-        let filter ={};
+        let filter ={isDelete: false};
         if(req.body.search){
             filter= {
+                ...filter,
                 $or: [
                     { name: { $regex: ".*" + req.body.search, $options: "i" } },
                     { type: { $regex: ".*" + req.body.search, $options: "i" } }
                 ],
-                isDelte: false
             }
         }
         let venues = await venueModel.find({isDelete: false})

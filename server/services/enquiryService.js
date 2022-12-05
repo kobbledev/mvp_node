@@ -36,9 +36,10 @@ exports.saveEnquiry = async (body) => {
  */
 exports.fetchAllEnquiries = async (req) => {
     try {
-        let filter ={};
+        let filter ={isDelete: false};
         if(req.body.search){
             filter= {
+                ...filter,
                 $or: [
                     { name: { $regex: ".*" + req.body.search, $options: "i" } },
                     { companyName: { $regex: ".*" + req.body.search, $options: "i" } },
@@ -46,7 +47,6 @@ exports.fetchAllEnquiries = async (req) => {
                     { mobile: { $regex: ".*" + req.body.search, $options: "i" } },
                     { message: { $regex: ".*" + req.body.search, $options: "i" } }
                 ],
-                isDelete: false
             }
         }
         let enquiries = await enquiryModel.find(filter)

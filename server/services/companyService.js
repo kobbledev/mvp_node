@@ -3,6 +3,9 @@ const companyModel = require("../models/company");
 const { base64encode} = require("nodejs-base64");
 const Constants = require("../helper/constants");
 const userModel = require("../models/users");
+const deptModel = require("../models/department");
+const designationModel = require("../models/designation");
+const isEmpty = require('lodash.isempty');
 
 /**
  * Save company
@@ -144,5 +147,155 @@ exports.loadCompanyNames = async (body) => {
     } catch (error) {
         console.log("Error occured in loadCompanyNames " + error);
         return { success: false, msg: "Error while loadCompanyNames" };
+    }
+}
+
+/**
+ * Save Department
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.saveDepartment = async (body) =>{
+    try {
+        body.modifiedBy = body.loggedIn;
+        body.modifiedDate = new Date();
+        if(body._id){
+            await deptModel.findByIdAndUpdate(body._id, body, {
+                new: true,
+            });
+            return {success: true, msg:"Department details updated successfully"};
+        }else{
+            body.createdBy = body.loggedIn;
+            body.createdDate = new Date();
+            body.isDelete= false;
+            await deptModel(body).save();
+            return {success: true, msg:"Department details saved successfully"};
+        }
+    } catch (error) {
+        console.log("Error occured in Department "+error);
+        return {success: false, msg:"Error while saving the Department"};
+    }
+}
+
+/**
+ * fetchAllDepartments
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.fetchAllDepartments = async (req) => {
+    try {
+        if(isEmpty(req.body.fk_companyId)){
+            return { success: false, msg: "Invalid request" };
+        }
+        let filter={
+            fk_companyId: {$in: req.body.fk_companyId},
+            isDelete: false
+        }
+        if(req.body.search){
+            filter= {
+                ...filter,
+                $or: [
+                    { departmentName: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { displayName: { $regex: ".*" + req.body.search, $options: "i" } },
+                ],
+            }
+        }
+        let deptDb = await deptModel.find(filter)
+            .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
+            .limit(parseInt(req.params.pageSize))
+            .sort({ createdDate: -1 })
+            .lean()
+            .populate({
+                path:"createdBy",
+                model:"users",
+                select: "name"
+            })
+            .populate({
+                path:"modifiedBy",
+                model:"users",
+                select: "name"
+            });
+        let totalRecords = await deptModel.find(filter).countDocuments();
+        return { success: true, data: deptDb, totalRecords }
+    } catch (error) {
+        console.log("Error occured in fetchAllEnquiries " + error);
+        return { success: false, msg: "No enquiry found" };
+    }
+}
+
+/**
+ * saveDesignation
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.saveDesignation = async (body) =>{
+    try {
+        body.modifiedBy = body.loggedIn;
+        body.modifiedDate = new Date();
+        if(body._id){
+            await designationModel.findByIdAndUpdate(body._id, body, {
+                new: true,
+            });
+            return {success: true, msg:"Designation details updated successfully"};
+        }else{
+            body.createdBy = body.loggedIn;
+            body.createdDate = new Date();
+            body.isDelete= false;
+            await designationModel(body).save();
+            return {success: true, msg:"Designation details saved successfully"};
+        }
+    } catch (error) {
+        console.log("Error occured in Designation "+error);
+        return {success: false, msg:"Error while saving the Designation"};
+    }
+}
+
+/**
+ * fetchAllDesigantions
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.fetchAllDesigantions = async (req) => {
+    try {
+        if(isEmpty(req.body.fk_companyId)){
+            return { success: false, msg: "Invalid request" };
+        }
+        let filter={
+            fk_companyId: {$in: req.body.fk_companyId},
+            isDelete: false
+        }
+        if(req.body.search){
+            filter= {
+                ...filter,
+                $or: [
+                    { designationName: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { displayName: { $regex: ".*" + req.body.search, $options: "i" } },
+                ],
+            }
+        }
+        let designationDb = await designationModel.find(filter)
+            .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
+            .limit(parseInt(req.params.pageSize))
+            .sort({ createdDate: -1 })
+            .lean()
+            .populate({
+                path:"createdBy",
+                model:"users",
+                select: "name"
+            })
+            .populate({
+                path:"modifiedBy",
+                model:"users",
+                select: "name"
+            });
+        let totalRecords = await designationModel.find(filter).countDocuments();
+        return { success: true, data: designationDb, totalRecords }
+    } catch (error) {
+        console.log("Error occured in fetchAllEnquiries " + error);
+        return { success: false, msg: "No enquiry found" };
     }
 }

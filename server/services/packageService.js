@@ -39,16 +39,16 @@ const moment = require('moment');
  */
  exports.fetchAllPackages = async(req) =>{
     try {
-        let filter ={};
+        let filter ={isDelete: false};
         if(req.body.search){
             filter= {
+                ...filter,
                 $or: [
                     { packageName: { $regex: ".*" + req.body.search, $options: "i" } },
                     { softwareModel: { $regex: ".*" + req.body.search, $options: "i" } },
                     { noOfHalls: { $regex: ".*" + req.body.search, $options: "i" } },
                     { amount: { $regex: ".*" + req.body.search, $options: "i" } }
                 ],
-                isDelete: false
             }
         }
         let packages = await packagesModel.find(filter)

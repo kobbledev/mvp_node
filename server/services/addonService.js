@@ -36,15 +36,15 @@ const addonModel = require("../models/addons");
  */
  exports.fetchAllAddons = async(req) =>{
     try {
-        let filter ={};
+        let filter ={isDelete: false};
         if(req.body.search){
             filter= {
+                ...filter,
                 $or: [
                     { packageName: { $regex: ".*" + req.body.search, $options: "i" } },
                     { noOfHalls: { $regex: ".*" + req.body.search, $options: "i" } },
                     { amount: { $regex: ".*" + req.body.search, $options: "i" } }
                 ],
-                isDelete: false
             }
         }
         let addons = await addonModel.find(filter)
