@@ -5,6 +5,7 @@ const Constants = require("../helper/constants");
 const userModel = require("../models/users");
 const deptModel = require("../models/department");
 const designationModel = require("../models/designation");
+const eventsModel = require("../models/events");
 const isEmpty = require('lodash.isempty');
 
 /**
@@ -296,6 +297,80 @@ exports.loadCompanyNames = async (body) => {
         return { success: true, data: designationDb, totalRecords }
     } catch (error) {
         console.log("Error occured in fetchAllEnquiries " + error);
+        return { success: false, msg: "No enquiry found" };
+    }
+}
+
+/**
+ * saveEventType
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.saveEventType = async (body) =>{
+    try {
+        body.modifiedBy = body.loggedIn;
+        body.modifiedDate = new Date();
+        if(body._id){
+            await eventsModel.findByIdAndUpdate(body._id, body, {
+                new: true,
+            });
+            return {success: true, msg:"Event type updated successfully"};
+        }else{
+            body.createdBy = body.loggedIn;
+            body.createdDate = new Date();
+            body.isDelete= false;
+            await eventsModel(body).save();
+            return {success: true, msg:"Event type saved successfully"};
+        }
+    } catch (error) {
+        console.log("Error occured in Event type  "+error);
+        return {success: false, msg:"Error while saving the Event type"};
+    }
+}
+/**
+ * fetchAllEventType
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.fetchAllEventType = async (req) => {
+    try {
+        if(isEmpty(req.body.fk_companyId)){
+            return { success: false, msg: "Invalid request" };
+        }
+        let filter={
+            fk_companyId: {$in: req.body.fk_companyId},
+            isDelete: false
+        }
+        if(req.body.search){
+            filter= {
+                ...filter,
+                $or: [
+                    { designationName: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { displayName: { $regex: ".*" + req.body.search, $options: "i" } },
+                ],
+            }
+        }
+        let eventDb = await eventsModel.find(filter)
+            .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
+            .limit(parseInt(req.params.pageSize))
+            .sort({ createdDate: -1 })
+            .lean()
+            .populate({
+                path:"createdBy",
+                model:"users",
+                select: "name"
+            })
+            .populate({
+                path:"modifiedBy",
+                model:"users",
+                select: "name"
+            });
+        let totalRecords = await eventsModel.find(filter).countDocuments();
+        return { success: true, data: eventDb, totalRecords }
+    } catch (error) {
+        console.log("Error occured in fetchAllEventType " + error);
         return { success: false, msg: "No enquiry found" };
     }
 }

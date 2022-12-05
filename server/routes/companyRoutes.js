@@ -68,5 +68,21 @@ app.post("/designation/:page/:pageSize",
     authenticationService.validateHeaderSessionToken,
     companyController.fetchAllDesigantions);
 
+/**
+* Save or update events
+* @author Praveen Varma
+*/
+app.post("/event/save",
+    authenticationService.validateHeaderSessionToken,
+    companyController.saveEventType);
+
+/**
+ * Fetch all events
+ * @author Praveen Varma
+ */
+app.post("/event/:page/:pageSize",
+    authenticationService.validateHeaderSessionToken,
+    companyController.fetchAllEventType);
+
 
 module.exports = app;
