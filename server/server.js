@@ -91,7 +91,7 @@ main();
 
 app.use(
   cors({
-    origin: ["http://localhost:3001","http://localhost:4001","http://34.212.66.224:3001", "http://34.212.66.224:4001"],
+    origin: ["http://localhost:3001","http://localhost:4001","http://34.212.66.224","http://34.212.66.224:3001", "http://34.212.66.224:4001"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
