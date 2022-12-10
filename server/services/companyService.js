@@ -9,6 +9,7 @@ const eventsModel = require("../models/events");
 const companyRefModel = require("../models/companyReferences");
 const isEmpty = require('lodash.isempty');
 const randomstring = require("randomstring");
+const menuModel = require("../models/menu");
 
 /**
  * Save company
@@ -452,5 +453,79 @@ exports.loadCompanyNames = async (body) => {
     } catch (error) {
         console.log("Error occured in companyRef fetch " + error);
         return { success: false, msg: "No data found" };
+    }
+}
+
+/**
+ * Save menu
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.saveMenu = async (body) =>{
+    try {
+        body.modifiedBy = body.loggedIn;
+        body.modifiedDate = new Date();
+        if(body._id){
+            await menuModel.findByIdAndUpdate(body._id, body, {
+                new: true,
+            });
+            return {success: true, msg:"Menu updated successfully"};
+        }else{
+            body.createdBy = body.loggedIn;
+            body.createdDate = new Date();
+            body.isDelete= false;
+            await menuModel(body).save();
+            return {success: true, msg:"Menu details saved successfully"};
+        }
+    } catch (error) {
+        console.log("Error occured in menu "+error);
+        return {success: false, msg:"Error while saving the menu"};
+    }
+}
+
+/**
+ * fetchAllMenus
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.fetchAllMenus = async (req) => {
+    try {
+        if(isEmpty(req.body.fk_companyId)){
+            return { success: false, msg: "Invalid request" };
+        }
+        let filter={
+            fk_companyId: {$in: req.body.fk_companyId},
+            isDelete: false
+        }
+        if(req.body.search){
+            filter= {
+                ...filter,
+                $or: [
+                    { category: { $regex: ".*" + req.body.search, $options: "i" } },
+                ],
+            }
+        }
+        let menuDb = await menuModel.find(filter)
+            .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
+            .limit(parseInt(req.params.pageSize))
+            .sort({ createdDate: -1 })
+            .lean()
+            .populate({
+                path:"createdBy",
+                model:"users",
+                select: "name"
+            })
+            .populate({
+                path:"modifiedBy",
+                model:"users",
+                select: "name"
+            });
+        let totalRecords = await menuModel.find(filter).countDocuments();
+        return { success: true, data: menuDb, totalRecords }
+    } catch (error) {
+        console.log("Error occured in fetchAllMenu " + error);
+        return { success: false, msg: "No menu found" };
     }
 }

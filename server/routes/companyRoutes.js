@@ -100,5 +100,21 @@ app.post("/companyref/:page/:pageSize",
     authenticationService.validateHeaderSessionToken,
     companyController.fetchAllCompanyReference);
 
+/**
+* Save or update Menu
+* @author Praveen Varma
+*/
+app.post("/menu/save",
+    authenticationService.validateHeaderSessionToken,
+    companyController.saveMenu);
+
+/**
+ * Fetch all menus
+ * @author Praveen Varma
+ */
+app.post("/menu/:page/:pageSize",
+    authenticationService.validateHeaderSessionToken,
+    companyController.fetchAllMenus);
+
 
 module.exports = app;
