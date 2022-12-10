@@ -86,7 +86,7 @@ const moment = require('moment');
             let package = await packagesModel.findOne({_id:mongoose.Types.ObjectId(body._id)},"").lean();
             return {success: true, data: package};
         }else{
-            return {success: true, msg:"Invalid request"};
+            return {success: false, msg:"Invalid request"};
         }
     } catch (error) {
         console.log("Error occured in fetchPackageDetails "+error);

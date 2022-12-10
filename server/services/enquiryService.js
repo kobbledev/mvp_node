@@ -74,7 +74,7 @@ exports.fetchEnquiryDetails = async (body) => {
             let enquiry = await enquiryModel.findOne({ _id: mongoose.Types.ObjectId(body._id) }, "").lean();
             return { success: true, data: enquiry };
         } else {
-            return { success: true, msg: "Invalid request" };
+            return { success: false, msg: "Invalid request" };
         }
     } catch (error) {
         console.log("Error occured in fetchEnquiryDetails " + error);

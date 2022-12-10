@@ -82,7 +82,7 @@ const addonModel = require("../models/addons");
             let addon = await addonModel.findOne({_id:mongoose.Types.ObjectId(body._id)},"").lean();
             return {success: true, data: addon};
         }else{
-            return {success: true, msg:"Invalid request"};
+            return {success: false, msg:"Invalid request"};
         }
     } catch (error) {
         console.log("Error occured in fetchAddonDetails "+error);

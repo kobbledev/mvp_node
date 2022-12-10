@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 /**
  * @author Praveen
- * Addon model
+ * Menu model
  */
 const MenuSeqSchema = mongoose.Schema({
   category: {

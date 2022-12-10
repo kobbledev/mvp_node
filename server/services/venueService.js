@@ -93,7 +93,7 @@ exports.fetchVenueDetails = async (body) => {
             let venue = await venueModel.findOne({ _id: mongoose.Types.ObjectId(body._id) }, "").lean();
             return { success: true, data: venue };
         } else {
-            return { success: true, msg: "Invalid request" };
+            return { success: false, msg: "Invalid request" };
         }
     } catch (error) {
         console.log("Error occured in fetchVenueDetails " + error);

@@ -14,5 +14,6 @@ router.use(require("./masterRoutes"));
 router.use(require("./enquiryRoutes"));
 router.use(require("./dashboardRoutes"));
 router.use(require("./userRoutes"));
+router.use(require("./bookingRoutes"));
 
 module.exports = router;
