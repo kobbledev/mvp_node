@@ -84,5 +84,21 @@ app.post("/event/:page/:pageSize",
     authenticationService.validateHeaderSessionToken,
     companyController.fetchAllEventType);
 
+/**
+* Save or update Company ref
+* @author Praveen Varma
+*/
+app.post("/companyref/save",
+    authenticationService.validateHeaderSessionToken,
+    companyController.saveCompanyReference);
+
+/**
+ * Fetch all Company ref
+ * @author Praveen Varma
+ */
+app.post("/companyref/:page/:pageSize",
+    authenticationService.validateHeaderSessionToken,
+    companyController.fetchAllCompanyReference);
+
 
 module.exports = app;
