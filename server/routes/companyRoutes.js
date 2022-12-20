@@ -116,5 +116,29 @@ app.post("/menu/:page/:pageSize",
     authenticationService.validateHeaderSessionToken,
     companyController.fetchAllMenus);
 
+/**
+* Save or update Banquet
+* @author Praveen Varma
+*/
+app.post("/banquet/save",
+    authenticationService.validateHeaderSessionToken,
+    companyController.saveBanguet);
+
+/**
+ * Fetch all Banquet
+ * @author Praveen Varma
+ */
+app.post("/banquet/:page/:pageSize",
+    authenticationService.validateHeaderSessionToken,
+    companyController.fetchAllBanquets);
+
+/**
+ * Fetch all Banquet drodown
+ * @author Praveen Varma
+ */
+ app.post("/banquet/dropdown",
+ authenticationService.validateHeaderSessionToken,
+ companyController.fetchAllBanquetsForDropDown);
+
 
 module.exports = app;

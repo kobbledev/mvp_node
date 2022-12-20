@@ -237,3 +237,54 @@ const companyService = require("../services/companyService");
         res.status(200).json({success: false, msg:"Error while fetchAllMenus"});
     }
 }
+
+/**
+ * saveBanguet
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.saveBanguet = async (req, res) =>{
+    try {
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
+       let resp = await companyService.saveBanguet(req.body);
+       res.status(200).json(resp);
+    } catch (error) {
+        console.log("Error occured in saveBanguet "+error);
+        res.status(200).json({success: false, msg:"Error while saving saveBanguet"});
+    }
+}
+
+/**
+ * fetchAllBanquets
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.fetchAllBanquets = async (req, res) =>{
+    try {
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
+       let resp = await companyService.fetchAllBanquets(req);
+       res.status(200).json(resp);
+    } catch (error) {
+        console.log("Error occured in fetchAllBanquets "+error);
+        res.status(200).json({success: false, msg:"Error while fetchAllBanquets"});
+    }
+}
+
+/**
+ * fetchAllBanquets
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.fetchAllBanquetsForDropDown = async (req, res) =>{
+    try {
+       req.body.loggedIn= req.user ? req.user._id.toString():null;
+       let resp = await companyService.fetchAllBanquetsForDropDown(req.body);
+       res.status(200).json(resp);
+    } catch (error) {
+        console.log("Error occured in fetchAllBanquetsForDropDown "+error);
+        res.status(200).json({success: false, msg:"Error while fetchAllBanquetsForDropDown"});
+    }
+}

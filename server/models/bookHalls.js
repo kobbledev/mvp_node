@@ -12,7 +12,7 @@ const BookingHllsSeqSchema = mongoose.Schema({
     required: true
   },
   entryDate: {
-    type: String,
+    type: Date,
     required: true
   },
   breakFast: {

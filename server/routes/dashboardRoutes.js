@@ -9,5 +9,13 @@ const dashboardController = require("../controllers/dashboardController");
 app.post("/dashboard/venue/count",
     authenticationService.validateHeaderSessionToken,
     dashboardController.venueCount);
+
+/**
+* Venue count
+* @author Praveen Varma
+*/
+app.post("/dashboard/bookings",
+    authenticationService.validateHeaderSessionToken,
+    dashboardController.bookings);
     
 module.exports = app;

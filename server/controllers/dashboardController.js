@@ -16,3 +16,21 @@ exports.venueCount = async(req, res)=>{
         res.status(200).json({success: false, msg:"Error while fetching venue dashboard count"});
     }
 }
+
+/**
+ * Client dashboard bookings
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.bookings = async(req, res)=>{
+    try {
+        let loggedIn = req?.user?._id;
+        req.body.loggedIn = loggedIn;
+        let resp = await dashboardService.bookings(req.body);
+        res.status(200).json(resp);
+    } catch (error) {
+        console.log("Error occured in bookings dashboard "+error);
+        res.status(200).json({success: false, msg:"Error while fetching bookings dashboard count"});
+    }
+}

@@ -10,6 +10,7 @@ const companyRefModel = require("../models/companyReferences");
 const isEmpty = require('lodash.isempty');
 const randomstring = require("randomstring");
 const menuModel = require("../models/menu");
+const banquetModel = require("../models/banquet");
 
 /**
  * Save company
@@ -527,5 +528,113 @@ exports.loadCompanyNames = async (body) => {
     } catch (error) {
         console.log("Error occured in fetchAllMenu " + error);
         return { success: false, msg: "No menu found" };
+    }
+}
+
+/**
+ * saveBanguet
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.saveBanguet = async (body) =>{
+    try {
+        body.modifiedBy = body.loggedIn;
+        body.modifiedDate = new Date();
+        body.order = body.order ? body.order : 1; 
+        if(body._id){
+            await banquetModel.findByIdAndUpdate(body._id, body, {
+                new: true,
+            });
+            return {success: true, msg:"Menu updated successfully"};
+        }else{
+            body.createdBy = body.loggedIn;
+            body.createdDate = new Date();
+            body.isDelete= false;
+            await banquetModel(body).save();
+            return {success: true, msg:"Banquet details saved successfully"};
+        }
+    } catch (error) {
+        console.log("Error occured in Banquet "+error);
+        return {success: false, msg:"Error while saving the Banquet"};
+    }
+}
+
+/**
+ * fetchAllBanquets
+ * @author Praveen Varma
+ * @param {*} req 
+ * @param {*} res 
+ */
+ exports.fetchAllBanquets = async (req) => {
+    try {
+        if(isEmpty(req.body.fk_companyId)){
+            return { success: false, msg: "Invalid request" };
+        }
+        let filter={
+            fk_companyId: {$in: req.body.fk_companyId},
+            isDelete: false,
+        }
+        if(req.body.search){
+            filter= {
+                ...filter,
+                $or: [
+                    { hallName: { $regex: ".*" + req.body.search, $options: "i" } },
+                    { hallType: { $regex: ".*" + req.body.search, $options: "i" } },
+                ],
+            }
+        }
+        let banquetDb = await banquetModel.find(filter)
+            .skip(parseInt(req.params.page - 1) * parseInt(req.params.pageSize))
+            .limit(parseInt(req.params.pageSize))
+            .sort({ order: 1 })
+            .lean()
+            .populate({
+                path:"fk_companyId",
+                model:"company",
+                select: "name city"
+            })
+            .populate({
+                path:"createdBy",
+                model:"users",
+                select: "name"
+            })
+            .populate({
+                path:"modifiedBy",
+                model:"users",
+                select: "name"
+            });
+        let totalRecords = await banquetModel.find(filter).countDocuments();
+        return { success: true, data: banquetDb, totalRecords }
+    } catch (error) {
+        console.log("Error occured in banquet fetch all " + error);
+        return { success: false, msg: "No data found" };
+    }
+}
+
+/**
+ * fetchAllBanquetsForDropDown
+ * @author Praveen Varma
+ * @param {*} body 
+ * @param {*} res 
+ */
+ exports.fetchAllBanquetsForDropDown = async (body) => {
+    try {
+        if(isEmpty(body.fk_companyId)){
+            return { success: false, msg: "Invalid request" };
+        }
+        let filter={
+            fk_companyId: {$in: body.fk_companyId},
+            isDelete: false,
+            isActive: true,
+        }
+        let banquetDb = await banquetModel.find(filter)
+            .select("hallName hallType")
+            .sort({ order: 1 })
+            .lean();
+        return { success: true, data: banquetDb }
+    } catch (error) {
+        console.log("Error occured in banquet fetchAllBanquetsForDropDown " + error);
+        return { success: false, msg: "No data found" };
     }
 }

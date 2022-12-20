@@ -165,7 +165,8 @@ exports.fetchAllBookings = async(req) =>{
             .populate({ path:"companyRef", model:"company_reference", select: "companyName"})
             if(book && book._id){
                 let bookHall = await bookingHallsModel.find({ fk_bookId: book._id.toString()}).lean()
-                .populate({ path:"event", model:"events", select: "type"});
+                .populate({ path:"event", model:"events", select: "type"})
+                .populate({ path:"hallName", model:"banquet", select: "hallName hallType"});
                 book.halls = bookHall;
             }
             return { success: true, data: book };
