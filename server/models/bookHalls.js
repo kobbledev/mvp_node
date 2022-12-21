@@ -44,5 +44,8 @@ const BookingHllsSeqSchema = mongoose.Schema({
   event:{
     type: String,
   },
+  isCancel: {
+    type: Boolean
+  },
 });
 module.exports = mongoose.model("booking_halls", BookingHllsSeqSchema, "booking_halls");

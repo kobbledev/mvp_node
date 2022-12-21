@@ -1,3 +1,4 @@
+const isEmpty = require("lodash.isempty");
 const dashboardService = require("../services/dashboardService");
 /**
  * venue Count
@@ -25,6 +26,9 @@ exports.venueCount = async(req, res)=>{
  */
  exports.bookings = async(req, res)=>{
     try {
+        if(isEmpty(req.body.fk_companyId)){
+            return res.status(200).json({success: false, msg: "Invalid request"});
+        }
         let loggedIn = req?.user?._id;
         req.body.loggedIn = loggedIn;
         let resp = await dashboardService.bookings(req.body);
