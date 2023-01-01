@@ -6,6 +6,7 @@ const companyRefModel = require("../models/companyReferences");
 const userModel = require("../models/users");
 const eventModel = require("../models/events");
 const stateModel =require("../models/states"); 
+const isEmpty = require("lodash.isempty");
 /**
  * Save booking
  * @param {*} body 
@@ -25,6 +26,7 @@ exports.saveBooking = async (body) => {
                 for(itm of body.halls){
                     itm.fk_companyId = fetchBook.fk_companyId;
                     itm.fk_bookId = fetchBook._id.toString();
+                    itm.event = !isEmpty(itm.event) ? itm.event : null; 
                     await bookingHallsModel(itm).save();
                 }
                 if(savedHalls && savedHalls.length > 0){
